@@ -4,11 +4,15 @@ const cpu = osu.cpu;
 const mem = osu.mem;
 const os = osu.os;
 
-// Ryn every 2 seconds
+let cpuOverload = 5;
+
+// Run every 2 seconds
 setInterval(() => {
   // CPU Usage
   cpu.usage().then(info => {
     document.getElementById('cpu-usage').innerText = info + '%';
+
+    document.getElementById('cpu-progress').style.width = info + '%';
   });
 
   // CPU Free
