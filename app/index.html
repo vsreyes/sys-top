@@ -91,8 +91,18 @@
             alertFrequency
           })
 
-          console.log('Settings Saved')
+          showAlert('Settings Saved')
         })
+
+        // Show alert for settings
+        function showAlert (msg) {
+          const alert = document.getElementById('alert')
+          alert.classList.remove('hide')
+          alert.classList.add('alert')
+          alert.innerText = msg
+
+          setTimeout(() => alert.classList.add('hide'), 3000)
+        }
     </script>
   </body>
 </html>
