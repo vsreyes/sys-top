@@ -1,4 +1,5 @@
-const { app, BrowserWindow, Menu, ipcMain } = require('electron');
+const path = require('path');
+const { app, BrowserWindow, Menu, ipcMain, Tray } = require('electron');
 const log = require('electron-log');
 const Store = require('./Store');
 
@@ -9,10 +10,11 @@ const isDev = process.env.NODE_ENV !== 'production' ? true : false;
 const isMac = process.platform === 'darwin' ? true : false;
 
 let mainWindow;
+let tray;
 
 // Init store & defaults
 const store = new Store({
-  configName = 'user-settings',
+  configName: 'user-settings',
   defaults: {
     settings: {
       cpuOverload: 80,
@@ -50,7 +52,11 @@ app.on('ready', () => {
   const mainMenu = Menu.buildFromTemplate(menu);
   Menu.setApplicationMenu(mainMenu);
 
-  mainWindow.on('ready', () => (mainWindow = null))
+  const icon = path.join(__dirname, 'assets', 'icons', 'tray_icon.png');
+
+  tray = new Tray(icon);
+
+  mainWindow.on('ready', () => (mainWindow = null));
 });
 
 const menu = [
