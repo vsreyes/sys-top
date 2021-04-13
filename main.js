@@ -30,6 +30,8 @@ function createMainWindow() {
     height: 500,
     icon: `${__dirname}/assets/icons/icon.png`,
     resizable: isDev ? true : false,
+    /*show: false,*/
+    opacity: 0.9,
     webPreferences: {
       nodeIntegration: true,
     },
@@ -54,9 +56,30 @@ app.on('ready', () => {
 
   const icon = path.join(__dirname, 'assets', 'icons', 'tray_icon.png');
 
+  // Create tray
   tray = new Tray(icon);
 
-  mainWindow.on('ready', () => (mainWindow = null));
+  tray.on('click', () => {
+    if (mainWindow.isVisible() === true) {
+      mainWindow.hide();
+    } else {
+      mainWindow.show();
+    }
+  });
+
+  tray.on('right-click', () => {
+    const contextMenu = Menu.buildFromTemplate([
+      {
+        label: 'Quit',
+        click: () => {
+          app.isQuitting = true;
+          app.quit();
+        },
+      },
+    ]);
+
+    tray.popUpContextMenu(contextMenu);
+  });
 });
 
 const menu = [
