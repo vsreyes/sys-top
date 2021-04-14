@@ -1,4 +1,4 @@
-const { Browser } = require('electron');
+const { BrowserWindow } = require('electron');
 
 class MainWindow extends BrowserWindow {
   constructor(file, isDev) {
